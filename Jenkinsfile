@@ -1,7 +1,7 @@
 pipeline{
     agent any 
 
-    parameter {
+    parameters {
         string(name: "Username", defaultValue:"megha", description:"enter your name here")
         booleanParam(name:"Toggle", defaultValue: true, description: "true or false")
         text(name: "Details", defaultValue: "megha_hede"; description: "extra details here")
