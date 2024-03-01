@@ -1,0 +1,62 @@
+parameter {
+    string(name: "Username", defaultValue:"megha", description:"enter your name here")
+    boolean(name:"Toggle", defaultValue: "True", description: "true or false")
+    text(name: "Details", defaultValue: " "; description: "extra details here")
+    choice(name: "Choice", choice:[ "one", "two", "three", "four"], description: "you have 4 choices")
+    password(name: "Password", defaultValue: "secret", description: "enter your password here")
+}
+
+stages {
+    stage {
+        when {
+            expression {
+            
+        
+        }
+        steps {
+            echo something
+        }
+    }
+}
+
+when {
+    environment name: 'DEPLOY_TO', value: 'production'  // if the environment variable 'DEPLOY_TO'
+                                                        // is having the value as production
+                                                        // only then the next steps should be executed
+}
+
+triggers {
+    cron (*/59 * * * *) //after every 1 hr
+    pollSCM (* */2 * * *) //after every 2 hrs
+    cron (* * */10 * *) // after every 10 days
+    cron (* * * */3 *) // after every 3 months
+}
+
+steps {
+    checkout([$class: 'GitSCM',
+    branches: [[name: '*/main']],
+    userRemoteConfigs: [[url: https//.......
+                         credentialsId; 'github']]])
+}
+
+stage ('checkout') {
+    steps {
+        withCredentials([usernamePassword(credentialsId: 'test_up', usernameVariable:'USERNAME', passwordVariable: 'PASSWORD')])
+            echo "username and password credentials"
+
+        withCredentials([string(credentialsId: 'test_up', variable: 'SECRET_TEXT)]) {
+            echo "as it is secret test it will not be visible"
+        }
+
+        withCredentials([file(credentialsId: 'test_up', variable: 'SECRET_FILE_PATH')]) {
+            echo "$FILE_PATH"
+                sh '''
+                    cat "$FILE_PATH"
+                '''
+        }
+
+        withCredentials([sshUserPrivateKey(credentialsId: 'test_up', usernameVariable: 'VARIABLE', keyFileVariable: 'SSH_KEY')]) {
+            echo " SSH private key credentials"
+        }
+    }
+}

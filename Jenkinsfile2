@@ -1,0 +1,19 @@
+pipeline {
+    agent any 
+    stages {
+        stage(parallel_stage) {
+            parallel {
+                stage ('build') {
+                    steps {
+                        sh 'ls'
+                    }
+                }
+                stage ('test') {
+                    steps {
+                        sh 'ls -lrt'
+                    }
+                }
+             }
+        }       
+    }   
+}
